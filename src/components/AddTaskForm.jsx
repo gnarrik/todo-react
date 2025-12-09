@@ -1,13 +1,31 @@
 import Field from './Field.jsx';
 import Button from './Button.jsx';
+import {useContext} from 'react';
+import {TasksContext} from '../context/TasksContext.jsx';
 
 const AddTaskForm = () => {
+
+  const {
+    addTask,
+    newTaskTitle,
+    setNewTaskTitle,
+    newTaskInputRef
+  } = useContext(TasksContext);
+
+  const onSubmit = (event) => {
+    event.preventDefault();
+    addTask();
+  };
+
   return (
-    <form className="todo__form">
+    <form className="todo__form" onSubmit={onSubmit}>
       <Field
         className="todo__field"
         label="New task title"
         id="new-task"
+        ref={newTaskInputRef}
+        value={newTaskTitle}
+        onInput={(event) => setNewTaskTitle(event.target.value)}
       />
       <Button
         type="submit"
