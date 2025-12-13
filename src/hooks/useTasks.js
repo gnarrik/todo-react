@@ -1,10 +1,13 @@
 import {useCallback, useEffect, useMemo, useRef, useState} from 'react';
 import tasksAPI from '../api/tasksAPI';
+
 const useTasks = () => {
 
   const [tasks, setTasks] = useState([]);
   const [newTaskTitle, setNewTaskTitle] = useState('');
   const [searchQuery, setSearchQuery] = useState('');
+  const [disappearingTaskId, setDisappearingTaskId] = useState(null);
+  const [appearingTaskId, setAppearingTaskId] = useState(null);
 
   const newTaskInputRef = useRef(null);
 
@@ -13,17 +16,19 @@ const useTasks = () => {
 
     if (isConfirmed) {
       tasksAPI.deleteAll(tasks)
-        .then(() => setTasks([]))
+        .then(() => setTasks([]));
     }
   }, [tasks]);
 
   const deleteTask = useCallback((taskId) => {
     tasksAPI.delete(taskId)
       .then(() => {
-        setTasks(
-          tasks.filter((task) => task.id !== taskId)
-        );
-      })
+        setDisappearingTaskId(taskId);
+        setTimeout(() => {
+          setTasks(tasks.filter((task) => task.id !== taskId));
+          setDisappearingTaskId(null);
+        }, 400);
+      });
   }, [tasks]);
 
   const toggleTaskComplete = useCallback((taskId, isDone) => {
@@ -38,7 +43,7 @@ const useTasks = () => {
             }
           })
         );
-      })
+      });
 
   }, [tasks]);
 
@@ -54,7 +59,12 @@ const useTasks = () => {
         setNewTaskTitle('');
         setSearchQuery('');
         newTaskInputRef.current.focus();
-      })
+        setAppearingTaskId(addedTask.id);
+
+        setTimeout(() => {
+          setAppearingTaskId(null);
+        }, 400);
+      });
 
 
   }, []);
@@ -62,7 +72,7 @@ const useTasks = () => {
   useEffect(() => {
     newTaskInputRef.current.focus();
 
-    tasksAPI.getAll().then(setTasks)
+    tasksAPI.getAll().then(setTasks);
   }, []);
 
   const filteredTasks = useMemo(() => {
@@ -86,7 +96,9 @@ const useTasks = () => {
       searchQuery,
       setSearchQuery,
       newTaskInputRef,
-      addTask
+      addTask,
+      disappearingTaskId,
+      appearingTaskId,
     }
   );
 };
