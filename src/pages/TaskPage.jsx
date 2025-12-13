@@ -1,4 +1,4 @@
-import {useEffect, useState} from 'react';
+import { useEffect, useState } from 'react';
 import TasksAPI from '../api/tasksAPI';
 
 const TaskPage = (props) => {
@@ -37,7 +37,9 @@ const TaskPage = (props) => {
   return (
     <div>
       <h1>{task.title}</h1>
-      <p>{task.isDone ? 'Задача выполнена' : 'Задача не выполнена'}</p>
+      <p>
+        {task.isDone ? 'Задача выполнена' : 'Задача не выполнена'}
+      </p>
     </div>
   )
 };

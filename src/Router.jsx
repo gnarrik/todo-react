@@ -1,4 +1,4 @@
-import {useEffect, useState} from 'react';
+import { useEffect, useState } from 'react';
 
 const matchPath = (path, route) => {
   const pathParts = path.split('/')
@@ -15,6 +15,7 @@ const matchPath = (path, route) => {
       const paramName = routePaths[i].slice(1)
 
       params[paramName] = pathParts[i]
+      
     } else if (routePaths[i] !== pathParts[i]) {
       return null
     }
@@ -42,7 +43,10 @@ export const useRoute = () => {
 }
 
 const Router = (props) => {
+  console.log('Компонент Router отрендерился');
+  
   const { routes } = props
+  
   const path = useRoute()
 
   for (const route in routes) {
@@ -50,6 +54,7 @@ const Router = (props) => {
 
     if (params) {
       const Page = routes[route]
+      
       return <Page params={params}/>
     }
   }
