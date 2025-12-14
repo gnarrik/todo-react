@@ -1,8 +1,8 @@
-import {memo, useContext} from 'react';
-import {TasksContext} from '@/entities/todo/modal/TasksContext.jsx';
-import RouterLink from '@/shared/ui/RouterLink';
-import styles from './TodoItem.module.scss';
-import {highlightCaseInsensitive} from '@/shared/utils/highlight.js';
+import {memo, useContext} from 'react'
+import {TasksContext} from '@/entities/todo/modal/TasksContext.jsx'
+import RouterLink from '@/shared/ui/RouterLink'
+import styles from './TodoItem.module.scss'
+import {highlightCaseInsensitive} from '@/shared/utils/highlight.js'
 
 const TodoItem = (props) => {
   const {
@@ -10,7 +10,7 @@ const TodoItem = (props) => {
     id,
     title,
     isDone,
-  } = props;
+  } = props
 
   const {
     firstIncompleteTaskRef,
@@ -20,9 +20,9 @@ const TodoItem = (props) => {
     disappearingTaskId,
     appearingTaskId,
     searchQuery,
-  } = useContext(TasksContext);
+  } = useContext(TasksContext)
 
-  const highlightedTitle = highlightCaseInsensitive(title, searchQuery);
+  const highlightedTitle = highlightCaseInsensitive(title, searchQuery)
 
   return (
     <li
@@ -47,7 +47,7 @@ const TodoItem = (props) => {
         {title}
       </label>
       <RouterLink
-        to={`/tasks/${id}`}
+        to={`tasks/${id}`}
         aria-label="Task detail page"
       >
         <span dangerouslySetInnerHTML={{__html: highlightedTitle}} />
@@ -75,7 +75,7 @@ const TodoItem = (props) => {
         </svg>
       </button>
     </li>
-  );
-};
+  )
+}
 
-export default memo(TodoItem);
+export default memo(TodoItem)
